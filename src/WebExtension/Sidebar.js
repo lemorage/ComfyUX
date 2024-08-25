@@ -194,14 +194,24 @@ export class Sidebar {
         this.categories = [
             { name: 'All', count: 0 },
             { name: 'Favorite', count: 0 },
-            { name: 'Notnull', count: 0 }
+            { name: 'Notnull', count: 0 },
+            { name: 'Hidden', count: 0 }
         ];
+
+        let keepInput = ["X's Pixel Controller.002", "PainterNode - 512x512", "Load Image", "PromptConcat", "输入图像"];
+        let keepOutput = ["Preview Image", "TripoSR Viewer"];
 
         const filterCallback = (category) => {
             if (category.name === 'All') {
                 this.resetFilter();
                 for (let nodeOfSidebar of NodeListOfSidebar) {
-                    nodeOfSidebar.toggleAll(false);
+                    let keep = keepInput.includes(nodeOfSidebar.title) || keepOutput.includes(nodeOfSidebar.title);
+                    if (!keep) {
+                        nodeOfSidebar.filter(0);
+                    } else {
+                        nodeOfSidebar.filter(1);
+                    }
+                    // nodeOfSidebar.toggleAll(false);
                 }
             }
             else if (category.name === 'Favorite') {
@@ -228,6 +238,20 @@ export class Sidebar {
                     nodeOfSidebar.toggleAll(false);
                 }
             }
+            else if (category.name === 'Hidden') {  // Logic for the Hidden category
+                this.resetFilter();
+                for (let nodeOfSidebar of NodeListOfSidebar) {
+                    let keep = keepInput.includes(nodeOfSidebar.title) || keepOutput.includes(nodeOfSidebar.title);
+                    if (!keep) {
+                        console.log("NOT KEEP: ", nodeOfSidebar.id, nodeOfSidebar.title);
+                        nodeOfSidebar.filter(1);
+                    } else {
+                        console.log("KEEP: ", nodeOfSidebar.id, nodeOfSidebar.title);
+                        nodeOfSidebar.filter(0);
+                    }
+                    nodeOfSidebar.toggleAll(false);
+                }
+            }
 
             window.gtag('event', 'click_filter', {
                 'filter_name': category.name
@@ -236,7 +260,13 @@ export class Sidebar {
 
         this.filter = new Filter(this.categories, filterCallback);
         setInterval(() => {
-            var cntList = [NodeListOfSidebar.length, favWidgetCount, NodeListOfSidebar.length - NodeNullCount];
+            // var cntList = [NodeListOfSidebar.length, favWidgetCount, NodeListOfSidebar.length - NodeNullCount];
+            var cntList = [
+                NodeListOfSidebar.filter(node => keepInput.includes(node.title) || keepOutput.includes(node.title)).length, 
+                favWidgetCount, 
+                NodeListOfSidebar.length - NodeNullCount,
+                NodeListOfSidebar.filter(node => !keepInput.includes(node.title) && !keepOutput.includes(node.title)).length  // Count for Hidden category
+            ];
             this.filter.setCategoryCount(cntList);
         }, 1000);
         this.tab.element.querySelector('.filter-area').appendChild(this.filter.element);
