@@ -8,7 +8,7 @@ module.exports = {
   entry: './WebExtension/ComfyUX.js', // 设置入口文件
   output: {
     filename: 'ComfyUX.js', // 输出文件名
-    path: path.resolve(__dirname, 'ComfyUX-release/WebExtension'), // 输出路径
+    path: path.resolve(__dirname, '../../ComfyUX-release/WebExtension'), // 输出路径
     library: {
       type: 'module'
     }
@@ -65,13 +65,13 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'PyComfyNode', to: path.resolve(__dirname, 'ComfyUX-release/PyComfyNode') }, // 复制整个文件夹
-        { from: 'WebExtension/component/img', to: path.resolve(__dirname, 'ComfyUX-release/WebExtension/component/img') }, // 复制整个文件夹
-        { from: 'WebExtension/component/css', to: path.resolve(__dirname, 'ComfyUX-release/WebExtension/component/css') }, // 复制整个文件夹
+        { from: 'PyComfyNode', to: path.resolve(__dirname, '../../ComfyUX-release/PyComfyNode') }, // Copy entire folder
+        { from: 'WebExtension/component/img', to: path.resolve(__dirname, '../../ComfyUX-release/WebExtension/component/img') }, // Copy entire folder
+        { from: 'WebExtension/component/css', to: path.resolve(__dirname, '../../ComfyUX-release/WebExtension/component/css') }, // Copy entire folder
         // { from: 'WebExtension/ComfyUIConnector.js', to: path.resolve(__dirname, 'ComfyUX-release/WebExtension/ComfyUIConnector.js') }, // 复制单个文件
-        { from: 'WebExtension/version.json', to: path.resolve(__dirname, 'ComfyUX-release/WebExtension/version.json') }, // 复制单个文件
-        { from: '__init__.py', to: path.resolve(__dirname, 'ComfyUX-release/__init__.py') }, // 复制单个文件
-        { from: 'pyproject.toml', to: path.resolve(__dirname, 'ComfyUX-release/pyproject.toml') } // 复制单个文件
+        { from: 'WebExtension/version.json', to: path.resolve(__dirname, '../../ComfyUX-release/WebExtension/version.json') }, // Copy single file
+        { from: '__init__.py', to: path.resolve(__dirname, '../../ComfyUX-release/__init__.py') }, // Copy single file
+        { from: 'pyproject.toml', to: path.resolve(__dirname, '../../ComfyUX-release/pyproject.toml') } // Copy single file
       ]
     })
   ],
