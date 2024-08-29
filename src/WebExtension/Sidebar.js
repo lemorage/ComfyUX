@@ -45,7 +45,8 @@ export class Sidebar {
         this.container = container;
         this.container.className = 'ComfyUXSidebar';
         this.container.style.backgroundColor = '#202022';
-        this.container.style.width = '1400px';
+        this.container.style.width = '100%';
+        this.container.style.height = '100vh';
         this.container.style.position = 'fixed';
         this.container.style.zIndex = '99';
         this.container.style.left = 'unset';
